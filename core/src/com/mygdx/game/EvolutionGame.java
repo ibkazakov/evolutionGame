@@ -4,33 +4,26 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.entities.Entity;
+import com.mygdx.game.entities.Food;
+import com.mygdx.game.entities.active_entities.ActiveEntity;
+import com.mygdx.game.entities.active_entities.Enemy;
+import com.mygdx.game.entities.active_entities.Hero;
+import com.mygdx.game.managers.BulletManager;
+import com.mygdx.game.managers.EatingManager;
+import com.mygdx.game.managers.GameManager;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class EvolutionGame extends ApplicationAdapter {
 	SpriteBatch batch;
 
-	List<Entity> allEntities = new ArrayList<Entity>();
-	List<ActiveEntity> activeEntities = new ArrayList<ActiveEntity>();
-	List<Bullet> bullets = new LinkedList<Bullet>();
-
-	public int bulletDeleted = 0;
+	GameManager gameManager;
 	
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
-		Hero hero = new Hero(bullets);
-		Enemy enemy = new Enemy(bullets, hero);
-		allEntities.add(hero);
-		allEntities.add(enemy);
-		activeEntities.add(hero);
-		activeEntities.add(enemy);
-		for(int i = 0; i < 10; i++) {
-			allEntities.add(new Food());
-		}
+		gameManager = new GameManager();
 	}
 
 	@Override
@@ -40,56 +33,18 @@ public class EvolutionGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		for(int i = 0; i < allEntities.size(); i++) {
-			allEntities.get(i).render(batch);
-		}
-		for(Bullet bullet : bullets) {
-			bullet.render(batch);
-		}
+		gameManager.render(batch);
 		batch.end();
 	}
 	
 	@Override
 	public void dispose() {
 		batch.dispose();
+		gameManager.dispose();
 	}
 
 	public void update(float dt) {
-		for(int i = 0; i < allEntities.size(); i++) {
-			allEntities.get(i).update(dt);
-		}
-		for(Bullet bullet : bullets) {
-			bullet.update(dt);
-		}
-
-		//eating
-		for(ActiveEntity entity : activeEntities) {
-			for(int i = 0; i < allEntities.size(); i++) {
-				entity.tryEat(allEntities.get(i));
-			}
-			for(Bullet bullet : bullets) {
-				entity.tryEat(bullet);
-			}
-		}
-
-		freeBullets();
-	}
-
-	// GC for bullets
-	private void freeBullets() {
-		Iterator<Bullet> iterator = bullets.iterator();
-		while (iterator.hasNext()) {
-			Bullet bullet = iterator.next();
-			if (!bullet.isActive()) {
-				iterator.remove();
-				bulletDeleted++;
-			}
-		}
-		if (bulletDeleted >= 100) {
-			System.gc();
-			bulletDeleted = 0;
-		}
-
+		gameManager.update(dt);
 	}
 
 }
