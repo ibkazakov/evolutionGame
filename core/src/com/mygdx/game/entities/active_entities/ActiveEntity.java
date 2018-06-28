@@ -1,6 +1,7 @@
 package com.mygdx.game.entities.active_entities;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.managers.BulletManager;
@@ -25,7 +26,7 @@ public abstract class ActiveEntity extends Entity {
     private Vector2 tB_position_copy = new Vector2();
 
 
-    public ActiveEntity(Texture texture, Vector2 position, Vector2 velocity,
+    public ActiveEntity(TextureRegion texture, Vector2 position, Vector2 velocity,
                         float angle, float angle_velocity, int radius, int score,
                         BulletManager bulletManager) {
         super(texture, position, velocity, angle, angle_velocity, radius, score);
@@ -66,7 +67,7 @@ public abstract class ActiveEntity extends Entity {
     }
 
     public void throwBullet() {
-        if (!bulletLock && active) {
+        if (active && !bulletLock) {
             bulletLock = true;
             tB_dir.set(MathUtils.cosDeg(angle), MathUtils.sinDeg(angle));
             tB_dir_copy.set(tB_dir);

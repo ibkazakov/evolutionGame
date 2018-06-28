@@ -1,72 +1,57 @@
 package com.mygdx.game.managers;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+                                                                                                                                                                                                                                                                                                                                                import com.badlogic.gdx.audio.Sound;
+                                                                                                                                                                                                                                                                                                                                                import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.entities.Bullet;
 import com.mygdx.game.entities.Entity;
 
 import java.util.*;
 
-public class BulletManager {
-    private Collection<Entity> actual_bullets = new LinkedHashSet<Entity>();
-    private Collection<Entity> free_bullets = new LinkedHashSet<Entity>();
+public class BulletManager extends ObjectPool<Entity> {
 
-    private Collection<Entity> for_deletion = new LinkedHashSet<Entity>();
+    /*
+    private Sound bulletSound;
 
+    public void setBulletSound(Sound bulletSound) {
+        this.bulletSound = bulletSound;
+    }
+    */
 
-    private int capacity;
-
-    public BulletManager(int capacity) {
-       for(int i = 0; i < capacity; i++) {
-           free_bullets.add(new Bullet());
-       }
-       this.capacity = capacity;
+    public BulletManager(int capacity, GameScreen gs) {
+        super(capacity, gs);
     }
 
-    public Collection<Entity> getActual_bullets() {
-        return actual_bullets;
+    public Entity newObject() {
+        return new Bullet();
     }
 
 
     public synchronized void throwBullet(Vector2 position, Vector2 dir, int score) {
-        // we need more bullets if there are no free bullets
-        if (free_bullets.size() == 0) {
-            for(int i = 0; i < capacity; i++) {
-                free_bullets.add(new Bullet());
-            }
-            capacity *= 2;
-        }
-
-        // normal work
-        Bullet bullet = (Bullet) free_bullets.toArray()[0];
+        Bullet bullet = (Bullet) getActiveElement();
         bullet.initParameters(position, dir, score);
-        free_bullets.remove(bullet);
-        actual_bullets.add(bullet);
+        // bulletSound.play();
     }
 
     public void update(float dt) {
-        for(Entity bullet : actual_bullets)  {
-            bullet.update(dt);
-            if (!bullet.isActive()) {
-                for_deletion.add(bullet);
-                // if we simply use actual_bullets.remove(bullet), we can get ConcurrentModificationException
-            }
+        for (int i = 0; i < activeObjects.size(); i++) {
+            activeObjects.get(i).update(dt);
         }
-        for(Entity bullet : for_deletion) {
-            actual_bullets.remove(bullet);
-            free_bullets.add(bullet);
-        }
-        for_deletion.clear();
+        checkPool();
     }
 
     public void render(SpriteBatch batch) {
-        for(Entity bullet : actual_bullets) {
-            bullet.render(batch);
+        for (int i = 0; i < activeObjects.size(); i++) {
+            activeObjects.get(i).render(batch);
         }
     }
 
     public void dispose() {
-        actual_bullets.clear();
-        free_bullets.clear();
+        activeObjects.clear();
+        freeObjects.clear();
+    }
+
+    public List<Entity> getActual_bullets() {
+        return activeObjects;
     }
 }

@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.WorldState;
+import com.mygdx.game.managers.Assets;
 import com.mygdx.game.managers.BulletManager;
 
 public class Hero extends ActiveEntity {
@@ -15,7 +17,7 @@ public class Hero extends ActiveEntity {
     private float respawnTimeStorage = 0.0f;
 
     public Hero(BulletManager bulletManager) {
-        super(new Texture("hero.jpg"), new Vector2(640.0f, 360.0f),
+        super(Assets.getInstance().getTexture("hero"), new Vector2(640.0f, 360.0f),
                 new Vector2(0.0f, 0.0f), 0.0f, 0.0f, 30, 900,
                 bulletManager);
     }
@@ -45,6 +47,7 @@ public class Hero extends ActiveEntity {
             }
 
             super.update(dt);
+            // gs.getViewport().unproject(position);
 
             if (!active) {
                 respawnTimeStorage += dt;

@@ -2,21 +2,29 @@ package com.mygdx.game.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.WorldState;
+import com.mygdx.game.managers.GameScreen;
 
 public abstract class Entity {
-    protected Texture texture;
+    protected TextureRegion texture;
     protected Vector2 position = new Vector2();
     protected Vector2 velocity = new Vector2();
     protected float angle;
     protected float angle_velocity;
     protected int radius;
     protected int score;
+    public GameScreen gs;
+
+    public void setGs(GameScreen gs) {
+        this.gs = gs;
+    }
 
     protected boolean active = true;
 
     // copying position and velocity vectors, no copying links
-    public Entity(Texture texture, Vector2 position, Vector2 velocity, float angle, float angle_velocity, int radius, int score) {
+    public Entity(TextureRegion texture, Vector2 position, Vector2 velocity, float angle, float angle_velocity, int radius, int score) {
         this.texture = texture;
         this.position.set(position);
         this.velocity.set(velocity);
@@ -32,7 +40,7 @@ public abstract class Entity {
 
     public void render(SpriteBatch batch) {
         if (active) {
-            batch.draw(texture, position.x - radius, position.y - radius, radius, radius, radius * 2, radius * 2, 1.0f, 1.0f, angle, 0, 0, 512, 512, false, false);
+            batch.draw(texture, position.x - radius, position.y - radius, radius, radius, radius * 2, radius * 2, 1.0f, 1.0f, angle);
         }
     }
 
@@ -49,16 +57,16 @@ public abstract class Entity {
 
         //cyclic universe
         if (position.x < 0.0f) {
-            position.x += 1280.0f;
+            position.x += WorldState.WORLD_WIGTH;
         }
-        if (position.x > 1280.0f) {
-            position.x -= 1280.0f;
+        if (position.x > WorldState.WORLD_WIGTH) {
+            position.x -= WorldState.WORLD_WIGTH;
         }
         if (position.y < 0.0f) {
-            position.y += 720.0f;
+            position.y += WorldState.WORLD_HEIGHT;
         }
-        if (position.y > 720.0f) {
-            position.y -= 720.0f;
+        if (position.y > WorldState.WORLD_HEIGHT) {
+            position.y -= WorldState.WORLD_HEIGHT;
         }
     }
 

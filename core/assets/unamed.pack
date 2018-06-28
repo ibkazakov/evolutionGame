@@ -1,0 +1,89 @@
+
+assets1.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+pauseButton
+  rotate: false
+  xy: 2, 2
+  size: 800, 800
+  orig: 800, 800
+  offset: 0, 0
+  index: -1
+hero
+  rotate: false
+  xy: 2, 804
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+food3
+  rotate: false
+  xy: 2, 1318
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+food2
+  rotate: false
+  xy: 2, 1832
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+food1
+  rotate: false
+  xy: 2, 2346
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+enemy
+  rotate: false
+  xy: 2, 2860
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+bullet
+  rotate: false
+  xy: 2, 3374
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+foodpoint
+  rotate: false
+  xy: 516, 804
+  size: 400, 400
+  orig: 400, 400
+  offset: 0, 0
+  index: -1
+mapBack
+  rotate: false
+  xy: 516, 1318
+  size: 359, 357
+  orig: 359, 357
+  offset: 0, 0
+  index: -1
+enemypoint
+  rotate: false
+  xy: 516, 1832
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+heroPoint
+  rotate: false
+  xy: 804, 2
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+simpleButton
+  rotate: false
+  xy: 516, 1677
+  size: 353, 143
+  orig: 353, 143
+  offset: 0, 0
+  index: -1

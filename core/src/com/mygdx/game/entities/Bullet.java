@@ -1,8 +1,11 @@
 package com.mygdx.game.entities;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.WorldState;
+import com.mygdx.game.managers.Assets;
 
 public class Bullet extends Entity {
     private static final float BULLET_VELOCITY = 400.0f;
@@ -11,7 +14,7 @@ public class Bullet extends Entity {
     private static final float LIMIT_LIFETIME = 2.0f;
     private float lifetimeStorage = 0.0f;
 
-    private static Texture bulletTexture = new Texture("bullet.png");
+    private static TextureRegion bulletTexture = Assets.getInstance().getTexture("bullet");
 
     // tmp
     private static Vector2 trashVector = new Vector2(0.0f, 0.0f);
@@ -30,6 +33,7 @@ public class Bullet extends Entity {
         this.angle_velocity = BULLET_ANGLE_VELOCITY;
         this.radius = 20;
         this.score = -score;
+        lifetimeStorage = 0.0f;
         active = true;
     }
 

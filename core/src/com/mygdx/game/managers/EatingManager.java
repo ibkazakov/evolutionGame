@@ -8,25 +8,27 @@ import java.util.Collection;
 import java.util.List;
 
 public class EatingManager {
-    private ArrayList<Collection<ActiveEntity>> canEat = new ArrayList<Collection<ActiveEntity>>();
-    private ArrayList<Collection<Entity>> canBeEaten = new ArrayList<Collection<Entity>>();
+    private ArrayList<List<Entity>> canEat = new ArrayList<List<Entity>>();
+    private ArrayList<List<Entity>> canBeEaten = new ArrayList<List<Entity>>();
 
-    public void addToCanEat(Collection<ActiveEntity> c) {
+    public void addToCanEat(List<Entity> c) {
         canEat.add(c);
     }
 
-    public void addToCanBeEaten(Collection<Entity> c) {
+    public void addToCanBeEaten(List<Entity> c) {
         canBeEaten.add(c);
     }
 
     public void eating() {
         for(int i = 0; i < canEat.size(); i++) {
-            for(ActiveEntity activeEntity : canEat.get(i)) {
+            for(int k = 0; k < canEat.get(i).size(); k++) {
+                Entity activeEntity = canEat.get(i).get(k);
                 for(int j = 0; j < canBeEaten.size(); j++) {
-                    for (Entity entity : canBeEaten.get(j)) {
+                    for (int l = 0; l < canBeEaten.get(j).size(); l++) {
+                        Entity entity = canBeEaten.get(j).get(l);
                         if ((activeEntity != entity) && isCover(activeEntity, entity)
                                 && entity.isActive() && activeEntity.isActive()) {
-                            activeEntity.eat(entity);
+                            ((ActiveEntity)activeEntity).eat(entity);
                         }
                     }
                 }
